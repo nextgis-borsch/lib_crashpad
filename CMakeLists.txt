@@ -127,6 +127,8 @@ target_include_directories(crashpad_interface INTERFACE
 target_compile_definitions(crashpad_interface INTERFACE
     CRASHPAD_LSS_SOURCE_EMBEDDED
 )
+set_property(TARGET crashpad_interface PROPERTY EXPORT_NAME interface)
+
 set(TARGETS crashpad_interface)
 
 if(MSVC)
@@ -187,10 +189,13 @@ if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
 		${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Config.cmake
 		DESTINATION ${INSTALL_CMAKECONF_DIR} COMPONENT dev)
 		
-    install(EXPORT crashpad_export NAMESPACE crashpad:: FILE ${PACKAGE_UPPER_NAME}Targets.cmake
+    install(EXPORT crashpad_export 
+		NAMESPACE crashpad:: 
+		FILE ${PACKAGE_UPPER_NAME}Targets.cmake
         DESTINATION "${INSTALL_CMAKECONF_DIR}")
 	
 	export(TARGETS ${TARGETS}
+		NAMESPACE crashpad::
 		FILE ${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Targets.cmake)
 endif()
 
