@@ -86,12 +86,12 @@ find_anyproject(MINICHROMIUM REQUIRED SHARED OFF)
 function(crashpad_install_target)
     if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
         install(TARGETS ${ARGN} 
-			EXPORT crashpad_export
+            EXPORT crashpad_export
             RUNTIME DESTINATION ${INSTALL_BIN_DIR}
-			ARCHIVE DESTINATION ${INSTALL_LIB_DIR}
-			LIBRARY DESTINATION ${INSTALL_LIB_DIR}
-			INCLUDES DESTINATION ${INSTALL_INC_DIR}
-			FRAMEWORK DESTINATION ${INSTALL_LIB_DIR}
+            ARCHIVE DESTINATION ${INSTALL_LIB_DIR}
+            LIBRARY DESTINATION ${INSTALL_LIB_DIR}
+            INCLUDES DESTINATION ${INSTALL_INC_DIR}
+            FRAMEWORK DESTINATION ${INSTALL_LIB_DIR}
         )
     endif()
 endfunction()
@@ -183,16 +183,16 @@ configure_file(cmake/PackageConfig.cmake.in
    ${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Config.cmake @ONLY)
 
 if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
-	install(FILES
-		${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Config.cmake
-		DESTINATION ${INSTALL_CMAKECONF_DIR} COMPONENT dev)
-		
+    install(FILES
+        {PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Config.cmake
+        DESTINATION ${INSTALL_CMAKECONF_DIR} COMPONENT dev)
+
     install(EXPORT crashpad_export 
-		FILE ${PACKAGE_UPPER_NAME}Targets.cmake
+        FILE ${PACKAGE_UPPER_NAME}Targets.cmake
         DESTINATION "${INSTALL_CMAKECONF_DIR}")
-	
-	export(TARGETS ${TARGETS}
-		FILE ${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Targets.cmake)
+
+    export(TARGETS ${TARGETS}
+        FILE ${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Targets.cmake)
 endif()
 
 # Archiving ====================================================================
