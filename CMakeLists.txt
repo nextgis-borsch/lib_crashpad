@@ -81,9 +81,7 @@ else()
 endif()
 
 include(FindAnyProject)
-
-find_anyproject(MINICHROMIUM REQUIRED)
-find_anyproject(ZLIB REQUIRED)
+find_anyproject(MINICHROMIUM REQUIRED SHARED OFF)
 
 function(crashpad_install_target)
     if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
