@@ -184,7 +184,7 @@ configure_file(cmake/PackageConfig.cmake.in
 
 if(NOT SKIP_INSTALL_LIBRARIES AND NOT SKIP_INSTALL_ALL)
     install(FILES
-        {PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Config.cmake
+        ${PROJECT_BINARY_DIR}/${PACKAGE_UPPER_NAME}Config.cmake
         DESTINATION ${INSTALL_CMAKECONF_DIR} COMPONENT dev)
 
     install(EXPORT crashpad_export 
