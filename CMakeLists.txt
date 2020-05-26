@@ -141,17 +141,17 @@ if(MSVC)
     string(REGEX REPLACE "/[Ww][0123]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
     string(REGEX REPLACE "/[Ww][0123]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     target_compile_options(crashpad_interface INTERFACE
-        $<$<COMPILE_LANGUAGE:C,CXX>:/FS>
-        $<$<COMPILE_LANGUAGE:C,CXX>:/W4>
-        $<$<COMPILE_LANGUAGE:C,CXX>:/WX>
-        $<$<COMPILE_LANGUAGE:C,CXX>:/Zi>
-        $<$<COMPILE_LANGUAGE:C,CXX>:/bigobj> # Support larger number of sections in obj file.
-        $<$<COMPILE_LANGUAGE:C,CXX>:/wd4100> # Unreferenced formal parameter.
-        $<$<COMPILE_LANGUAGE:C,CXX>:/wd4127> # Conditional expression is constant.
-        $<$<COMPILE_LANGUAGE:C,CXX>:/wd4324> # Structure was padded due to alignment specifier.
-        $<$<COMPILE_LANGUAGE:C,CXX>:/wd4351> # New behavior: elements of array will be default initialized.
-        $<$<COMPILE_LANGUAGE:C,CXX>:/wd4577> # 'noexcept' used with no exception handling mode specified.
-        $<$<COMPILE_LANGUAGE:C,CXX>:/wd4996> # 'X' was declared deprecated.
+        /FS
+        /W4
+        /WX
+        /Zi
+        /bigobj # Support larger number of sections in obj file.
+        /wd4100 # Unreferenced formal parameter.
+        /wd4127 # Conditional expression is constant.
+        /wd4324 # Structure was padded due to alignment specifier.
+        /wd4351 # New behavior: elements of array will be default initialized.
+        /wd4577 # 'noexcept' used with no exception handling mode specified.
+        /wd4996 # 'X' was declared deprecated.
     )
 elseif(MINGW)
     # redirect to wmain
