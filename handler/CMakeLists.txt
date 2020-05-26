@@ -67,7 +67,6 @@ target_link_libraries(${TARGET_NAME}
 if(WIN32) 
     if(MSVC)
         target_compile_options(${TARGET_NAME} PRIVATE "/wd4201")
-        target_link_options(${TARGET_NAME} PRIVATE "/SUBSYSTEM:WINDOWS")
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(${TARGET_NAME} PRIVATE 
