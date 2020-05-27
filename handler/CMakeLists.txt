@@ -67,6 +67,7 @@ target_link_libraries(${TARGET_NAME}
 if(WIN32) 
     if(MSVC)
         target_compile_options(${TARGET_NAME} PRIVATE "/wd4201")
+        set_target_properties(${TARGET_NAME} PROPERTIES LINK_FLAGS -SAFESEH:NO)
     endif()
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(${TARGET_NAME} PRIVATE 
