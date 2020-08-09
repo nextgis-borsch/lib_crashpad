@@ -20,6 +20,8 @@ add_library(${TARGET_NAME} STATIC
     file/scoped_remove_file.h
     file/string_file.cc
     file/string_file.h
+    file/file_helper.cc
+    file/file_helper.h
     misc/address_sanitizer.h
     misc/address_types.h
     misc/arraysize.h
