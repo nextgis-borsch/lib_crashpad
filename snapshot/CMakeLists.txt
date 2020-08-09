@@ -201,7 +201,6 @@ if(WIN32)
 endif()
 
 set_property(TARGET ${TARGET_NAME} PROPERTY EXPORT_NAME snapshot)
-set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 14)
 add_library(crashpad::snapshot ALIAS ${TARGET_NAME})
 
 crashpad_install_target(${TARGET_NAME})

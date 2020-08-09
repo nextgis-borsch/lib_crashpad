@@ -77,7 +77,6 @@ if(WIN32)
 endif()
 
 set_property(TARGET ${TARGET_NAME} PROPERTY EXPORT_NAME handler)
-set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 14)
 add_executable(crashpad::handler ALIAS ${TARGET_NAME})
 
 crashpad_install_target(${TARGET_NAME})

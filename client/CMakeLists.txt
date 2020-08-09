@@ -63,7 +63,6 @@ target_link_libraries(${TARGET_NAME}
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_14)
 
 set_property(TARGET ${TARGET_NAME} PROPERTY EXPORT_NAME crashpad)
-set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 14)
 add_library(crashpad::client ALIAS ${TARGET_NAME})
 
 if(WIN32)

@@ -76,7 +76,6 @@ if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 endif()
 
 set_property(TARGET ${TARGET_NAME} PROPERTY EXPORT_NAME minidump)
-set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 14)
 add_library(crashpad::minidump ALIAS ${TARGET_NAME})
 
 crashpad_install_target(${TARGET_NAME})
