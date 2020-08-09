@@ -119,6 +119,7 @@ if(ANDROID)
 endif()
 
 set_property(TARGET ${TARGET_NAME} PROPERTY EXPORT_NAME compat)
+set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 14)
 add_library(crashpad::compat ALIAS ${TARGET_NAME})
 
 crashpad_install_target(${TARGET_NAME})

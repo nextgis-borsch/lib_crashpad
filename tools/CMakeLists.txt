@@ -10,6 +10,7 @@ target_link_libraries(${TARGET_NAME} PRIVATE
 )
 
 set_property(TARGET ${TARGET_NAME} PROPERTY EXPORT_NAME tools)
+set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 14)
 add_library(crashpad::tools ALIAS ${TARGET_NAME})
 
 crashpad_install_target(${TARGET_NAME})
