@@ -153,6 +153,8 @@ if(APPLE)
         mac/service_management.h
         mac/xattr.cc
         mac/xattr.h
+        mach/bootstrap.cc
+        mach/bootstrap.h
         mach/child_port_handshake.cc
         mach/child_port_handshake.h
         mach/child_port_server.cc
@@ -328,7 +330,7 @@ if(APPLE)
 
     find_package(PythonInterp 2.7 REQUIRED)
 
-    set(output_dir "${CMAKE_CURRENT_BINARY_DIR}/util/mach")
+    set(output_dir "${CMAKE_CURRENT_BINARY_DIR}/mach")
     file(MAKE_DIRECTORY "${output_dir}")
 
     # Create generate rule for each input file. Add each generated output
@@ -350,7 +352,7 @@ if(APPLE)
         target_sources(${TARGET_NAME} PRIVATE ${output_files})
     endforeach()
 
-    include_directories("${CMAKE_CURRENT_BINARY_DIR}")
+    include_directories("${CMAKE_CURRENT_BINARY_DIR}/..")
 endif()
 
 target_include_directories(${TARGET_NAME} PRIVATE

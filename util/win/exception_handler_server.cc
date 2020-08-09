@@ -19,7 +19,6 @@
 #include <sys/types.h>
 
 #include <utility>
-#include <memory>
 
 #include "base/logging.h"
 #include "base/numerics/safe_conversions.h"

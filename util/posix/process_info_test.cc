@@ -131,11 +131,11 @@ void TestProcessSelfOrClone(const ProcessInfo& process_info) {
 
   // expect_argv always contains the initial view of the arguments at the time
   // the program was invoked. argv may contain this view, or it may contain the
-  // current view of arguments after gtest argv processing. argv may be a subset
-  // of expect_argv.
+  // current view of arguments after Google Test argv processing. argv may be a
+  // subset of expect_argv.
   //
-  // gtest argv processing always leaves argv[0] intact, so this can be checked
-  // directly.
+  // Google Test argv processing always leaves argv[0] intact, so this can be
+  // checked directly.
   ASSERT_FALSE(expect_argv.empty());
   ASSERT_FALSE(argv.empty());
   EXPECT_EQ(argv[0], expect_argv[0]);
@@ -172,7 +172,7 @@ TEST(ProcessInfo, Self) {
   TestSelfProcess(process_info);
 }
 
-#if defined(OS_MACOSX)
+#if defined(OS_APPLE)
 TEST(ProcessInfo, SelfTask) {
   ProcessInfo process_info;
   ASSERT_TRUE(process_info.InitializeWithTask(mach_task_self()));

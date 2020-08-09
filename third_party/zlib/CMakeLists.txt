@@ -3,7 +3,11 @@ set(TARGETS ${TARGETS} ${TARGET_NAME} PARENT_SCOPE)
 
 add_library(${TARGET_NAME} INTERFACE)
 
-find_anyproject(ZLIB REQUIRED SHARED OFF)
+if(WIN32)
+	find_anyproject(ZLIB REQUIRED SHARED OFF)
+else()
+	find_anyproject(ZLIB REQUIRED)
+endif()
 
 target_compile_definitions(${TARGET_NAME} INTERFACE
 	ZLIB_CONST

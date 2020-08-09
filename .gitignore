@@ -39,3 +39,6 @@
 *~
 *.txt.user
 .vscode
+
+# Python
+*.pyc
