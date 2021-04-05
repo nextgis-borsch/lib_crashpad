@@ -12,28 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#import <Foundation/Foundation.h>
-#include <objc/message.h>
-#include <objc/runtime.h>
+#include "util/mac/sysctl.h"
 
 #include "gtest/gtest.h"
-#include "testing/platform_test.h"
 
 namespace crashpad {
 namespace test {
 namespace {
 
-using IOSExceptionProcessor = PlatformTest;
+TEST(Sysctl, ReadStringSysctlByName) {
+  // kern.ostype is always provided by the kernel, and it’s a constant across
+  // all versions, so it makes for a good test.
+  EXPECT_EQ(ReadStringSysctlByName("kern.ostype", true), "Darwin");
 
-TEST_F(IOSExceptionProcessor, SelectorExists) {
-  IMP uigesture_deliver_event_imp = class_getMethodImplementation(
-      NSClassFromString(@"UIGestureEnvironment"),
-      NSSelectorFromString(@"_deliverEvent:toGestureRecognizers:usingBlock:"));
-
-  // From 10.15.0 objc4-779.1/runtime/objc-class.mm
-  // class_getMethodImplementation returns nil or _objc_msgForward on failure.
-  ASSERT_TRUE(uigesture_deliver_event_imp);
-  ASSERT_NE(uigesture_deliver_event_imp, _objc_msgForward);
+  // Names expected to not exist.
+  EXPECT_TRUE(ReadStringSysctlByName("kern.scheisskopf", true).empty());
+  EXPECT_TRUE(ReadStringSysctlByName("kern.sanders", false).empty());
 }
 
 }  // namespace

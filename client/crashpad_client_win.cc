@@ -26,7 +26,6 @@
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/scoped_generic.h"
-#include "base/strings/string16.h"
 #include "base/strings/stringprintf.h"
 #include "base/strings/utf_string_conversions.h"
 #include "base/synchronization/lock.h"
@@ -67,6 +66,8 @@ ExceptionInformation g_crash_exception_information;
 // signal g_non_crash_dump_done when the dump is completed.
 HANDLE g_signal_non_crash_dump = INVALID_HANDLE_VALUE;
 HANDLE g_non_crash_dump_done = INVALID_HANDLE_VALUE;
+
+CrashpadClient::FirstChanceHandlerWin first_chance_handler_ = nullptr;
 
 // Guards multiple simultaneous calls to DumpWithoutCrash(). This is leaked.
 base::Lock* g_non_crash_dump_lock;
@@ -131,6 +132,10 @@ LONG WINAPI UnhandledExceptionHandler(EXCEPTION_POINTERS* exception_pointers) {
     // and then sleeping unnecessarily.
     LOG(ERROR) << "crash server failed to launch, self-terminating";
     SafeTerminateProcess(GetCurrentProcess(), kTerminationCodeCrashNoDump);
+    return EXCEPTION_CONTINUE_SEARCH;
+  }
+
+  if (first_chance_handler_ && first_chance_handler_(exception_pointers)) {
     return EXCEPTION_CONTINUE_SEARCH;
   }
 
@@ -200,7 +205,7 @@ void HandleAbortSignal(int signum) {
 
 std::wstring FormatArgumentString(const std::string& name,
                                   const std::wstring& value) {
-  return std::wstring(L"--") + base::UTF8ToUTF16(name) + L"=" + value;
+  return std::wstring(L"--") + base::UTF8ToWide(name) + L"=" + value;
 }
 
 struct ScopedProcThreadAttributeListTraits {
@@ -282,7 +287,7 @@ void CreatePipe(std::wstring* pipe_name, ScopedFileHANDLE* pipe_instance) {
 #endif
       GetCurrentProcessId());
   do {
-    *pipe_name = base::UTF8ToUTF16(pipe_name_base + RandomString());
+    *pipe_name = base::UTF8ToWide(pipe_name_base + RandomString());
 
     pipe_instance->reset(CreateNamedPipeInstance(*pipe_name, true));
 
@@ -362,7 +367,7 @@ bool StartHandlerProcess(
   std::wstring command_line;
   AppendCommandLineArgument(data->handler.value(), &command_line);
   for (const std::string& argument : data->arguments) {
-    AppendCommandLineArgument(base::UTF8ToUTF16(argument), &command_line);
+    AppendCommandLineArgument(base::UTF8ToWide(argument), &command_line);
   }
   if (!data->database.value().empty()) {
     AppendCommandLineArgument(
@@ -376,13 +381,13 @@ bool StartHandlerProcess(
   }
   if (!data->url.empty()) {
     AppendCommandLineArgument(
-        FormatArgumentString("url", base::UTF8ToUTF16(data->url)),
+        FormatArgumentString("url", base::UTF8ToWide(data->url)),
         &command_line);
   }
   for (const auto& kv : data->annotations) {
     AppendCommandLineArgument(
         FormatArgumentString("annotation",
-                             base::UTF8ToUTF16(kv.first + '=' + kv.second)),
+                             base::UTF8ToWide(kv.first + '=' + kv.second)),
         &command_line);
   }
   for (const base::FilePath& attachment : data->attachments) {
@@ -408,8 +413,8 @@ bool StartHandlerProcess(
       FromPointerCast<WinVMAddress>(&g_non_crash_exception_information),
       FromPointerCast<WinVMAddress>(&g_critical_section_with_debug_info));
   AppendCommandLineArgument(
-      base::UTF8ToUTF16(std::string("--initial-client-data=") +
-                        initial_client_data.StringRepresentation()),
+      base::UTF8ToWide(std::string("--initial-client-data=") +
+                       initial_client_data.StringRepresentation()),
       &command_line);
 
   BOOL rv;
@@ -495,7 +500,7 @@ bool StartHandlerProcess(
   // invalid command line where the first argument needed by rundll32 is not in
   // the correct format as required in:
   // https://support.microsoft.com/en-ca/help/164787/info-windows-rundll-and-rundll32-interface
-  const base::StringPiece16 kRunDll32Exe(L"rundll32.exe");
+  const base::WStringPiece kRunDll32Exe(L"rundll32.exe");
   bool is_embedded_in_dll = false;
   if (data->handler.value().size() >= kRunDll32Exe.size() &&
       _wcsicmp(data->handler.value()
@@ -1068,6 +1073,12 @@ bool CrashpadClient::DumpAndCrashTargetProcess(HANDLE process,
   }
 
   return result;
+}
+
+// static
+void CrashpadClient::SetFirstChanceExceptionHandler(
+    FirstChanceHandlerWin handler) {
+  first_chance_handler_ = handler;
 }
 
 }  // namespace crashpad

@@ -2,26 +2,25 @@ set(COMPAT_SOURCES)
 
 if(APPLE)
     list(APPEND COMPAT_SOURCES
-        mac/AvailabilityMacros.h
+        mac/Availability.h
+        mac/AvailabilityVersions.h
         mac/kern/exc_resource.h
         mac/mach-o/loader.h
+        mac/mach/i386/thread_state.h
         mac/mach/mach.h
         mac/sys/resource.h
     )
 else()
     list(APPEND COMPAT_SOURCES
-        non_mac/mach-o/loader.h
         non_mac/mach/mach.h
-        non_mac/mach/machine.h
-        non_mac/mach/vm_prot.h
     )
 endif()
 
 if(LINUX OR ANDROID)
     list(APPEND COMPAT_SOURCES
         linux/signal.h
-        linux/sys/mman.cc
         linux/sys/mman.h
+        linux/sys/mman_memfd_create.cc
         linux/sys/ptrace.h
         linux/sys/user.h
     )
@@ -29,8 +28,6 @@ endif()
 
 if(ANDROID)
     list(APPEND COMPAT_SOURCES
-        android/android/api-level.cc
-        android/android/api-level.h
         android/dlfcn_internal.cc
         android/dlfcn_internal.h
         android/elf.h
@@ -40,8 +37,8 @@ if(ANDROID)
         android/sched.h
         android/sys/epoll.cc
         android/sys/epoll.h
-        android/sys/mman.cc
         android/sys/mman.h
+        android/sys/mman_mmap.cc
         android/sys/syscall.h
         android/sys/user.h
     )
@@ -72,12 +69,6 @@ else()
         non_win/verrsrc.h
         non_win/windows.h
         non_win/winnt.h
-    )
-endif()
-
-if(NOT LINUX AND NOT ANDROID)
-    list(APPEND COMPAT_SOURCES
-        non_elf/elf.h
     )
 endif()
 

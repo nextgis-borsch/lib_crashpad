@@ -28,6 +28,7 @@
 
 #include "base/logging.h"
 #include "base/strings/stringprintf.h"
+#include "build/chromeos_buildflags.h"
 #include "client/client_argv_handling.h"
 #include "third_party/lss/lss.h"
 #include "util/file/file_io.h"
@@ -137,7 +138,7 @@ class SignalHandler {
   // handler will be restored and the signal reraised.
   static void DisableForThread() { disabled_for_thread_ = true; }
 
-  void SetFirstChanceHandler(CrashpadClient::FirstChanceHandler handler) {
+  void SetFirstChanceHandler(CrashpadClient::FirstChanceHandlerLinux handler) {
     first_chance_handler_ = handler;
   }
 
@@ -202,7 +203,7 @@ class SignalHandler {
 
   Signals::OldActions old_actions_ = {};
   ExceptionInformation exception_information_ = {};
-  CrashpadClient::FirstChanceHandler first_chance_handler_ = nullptr;
+  CrashpadClient::FirstChanceHandlerLinux first_chance_handler_ = nullptr;
 
   static SignalHandler* handler_;
 
@@ -335,7 +336,7 @@ class RequestCrashDumpHandler : public SignalHandler {
     ExceptionHandlerProtocol::ClientInformation info = {};
     info.exception_information_address =
         FromPointerCast<VMAddress>(&GetExceptionInfo());
-#if defined(OS_CHROMEOS)
+#if BUILDFLAG(IS_CHROMEOS_ASH)
     info.crash_loop_before_time = crash_loop_before_time_;
 #endif
 
@@ -343,7 +344,7 @@ class RequestCrashDumpHandler : public SignalHandler {
     client.RequestCrashDump(info);
   }
 
-#if defined(OS_CHROMEOS)
+#if BUILDFLAG(IS_CHROMEOS_ASH)
   void SetCrashLoopBefore(uint64_t crash_loop_before_time) {
     crash_loop_before_time_ = crash_loop_before_time;
   }
@@ -357,7 +358,7 @@ class RequestCrashDumpHandler : public SignalHandler {
   ScopedFileHandle sock_to_handler_;
   pid_t handler_pid_ = -1;
 
-#if defined(OS_CHROMEOS)
+#if BUILDFLAG(IS_CHROMEOS_ASH)
   // An optional UNIX timestamp passed to us from Chrome.
   // This will pass to crashpad_handler and then to Chrome OS crash_reporter.
   // This should really be a time_t, but it's basically an opaque value (we
@@ -411,7 +412,7 @@ bool CrashpadClient::StartHandler(
       std::move(client_sock), handler_pid, &unhandled_signals_);
 }
 
-#if defined(OS_ANDROID) || defined(OS_LINUX)
+#if defined(OS_ANDROID) || defined(OS_LINUX) || defined(OS_CHROMEOS)
 // static
 bool CrashpadClient::GetHandlerSocket(int* sock, pid_t* pid) {
   auto signal_handler = RequestCrashDumpHandler::Get();
@@ -515,7 +516,7 @@ bool CrashpadClient::InitializeSignalStackForThread() {
   }
   return true;
 }
-#endif  // OS_ANDROID || OS_LINUX
+#endif  // OS_ANDROID || OS_LINUX || OS_CHROMEOS
 
 #if defined(OS_ANDROID)
 
@@ -668,7 +669,7 @@ void CrashpadClient::CrashWithoutDump(const std::string& message) {
 
 // static
 void CrashpadClient::SetFirstChanceExceptionHandler(
-    FirstChanceHandler handler) {
+    FirstChanceHandlerLinux handler) {
   DCHECK(SignalHandler::Get());
   SignalHandler::Get()->SetFirstChanceHandler(handler);
 }
@@ -678,7 +679,7 @@ void CrashpadClient::SetUnhandledSignals(const std::set<int>& signals) {
   unhandled_signals_ = signals;
 }
 
-#if defined(OS_CHROMEOS)
+#if BUILDFLAG(IS_CHROMEOS_ASH)
 // static
 void CrashpadClient::SetCrashLoopBefore(uint64_t crash_loop_before_time) {
   auto request_crash_dump_handler = RequestCrashDumpHandler::Get();

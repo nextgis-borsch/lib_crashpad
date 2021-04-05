@@ -1,7 +1,6 @@
 .,.,,h
 client,client,,"h,cc,mm"
 compat/android,compat/android,,"h,cc"
-compat/android/android,compat/android/android,,"h,cc"
 compat/android/linux,compat/android/linux,,h
 compat/android/sys,compat/android/sys,,"h,cc"
 compat/linux,compat/linux,,h
@@ -10,8 +9,8 @@ compat/mac,compat/mac,,h
 compat/mac/kern,compat/mac/kern,,h
 compat/mac/mach,compat/mac/mach,,h
 compat/mac/mach/i386,compat/mac/mach/i386,,h
-compat/mac/mach/mach-o,compat/mac/mach/mach-o,,h
-compat/mac/mach/sys,compat/mac/mach/sys,,h
+compat/mac/mach-o,compat/mac/mach-o,,h
+compat/mac/sys,compat/mac/sys,,h
 compat/mingw,compat/mingw,,h
 compat/non_elf,compat/non_elf,,h
 compat/non_mac/mach,compat/non_mac/mach,,h
@@ -20,7 +19,6 @@ compat/non_win,compat/non_win,,h
 compat/win,compat/win,,"h,cc"
 compat/win/sys,compat/win/sys,,h
 handler,handler,,"h,cc"
-handler/fuchsia,handler/fuchsia,,"h,cc"
 handler/linux,handler/linux,,"h,cc"
 handler/mac,handler/mac,,"h,cc"
 handler/win,handler/win,,"h,cc"
@@ -29,7 +27,6 @@ snapshot,snapshot,,"h,cc,S"
 snapshot/crashpad_types,snapshot/crashpad_types,,"h,cc"
 snapshot/elf,snapshot/elf,,"h,cc"
 snapshot/fuchsia,snapshot/fuchsia,,"h,cc"
-snapshot/ios,snapshot/ios,,"h,cc"
 snapshot/linux,snapshot/linux,,"h,cc"
 snapshot/mac,snapshot/mac,,"h,cc"
 snapshot/mac/process_types,snapshot/mac/process_types,,"h,cc,proctype"
@@ -41,11 +38,11 @@ snapshot/x86,snapshot/x86,,"h,cc"
 third_party/getopt,third_party/getopt,,"h,cc"
 third_party/zlib,third_party/zlib,,h
 third_party/apple_cf,third_party/apple_cf,,h
+third_party/mini_chromium/build,third_party/mini_chromium/build,,chromeos_buildflags.h
 tools,tools,,"h,cc"
 tools/mac,tools/mac,,"cc,mm,plist"
 util/file,util/file,,"h,cc"
 util/fuchsia,util/fuchsia,,"h,cc"
-util/ios,util/ios,,"h,mm"
 util/linux,util/linux,,"h,cc"
 util/mac,util/mac,,"h,cc,mm"
 util/mach,util/mach,,"h,cc,defs,py"

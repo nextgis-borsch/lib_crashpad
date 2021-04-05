@@ -25,11 +25,15 @@
 // which doesn't.
 #if defined(__GLIBC__)
 
+#ifndef __THROW
+#define __THROW
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int memfd_create(const char* name, unsigned int flags);
+int memfd_create(const char* name, unsigned int flags) __THROW;
 
 #ifdef __cplusplus
 }  // extern "C"
