@@ -52,6 +52,11 @@ target_include_directories(${TARGET_NAME} INTERFACE
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>"
     "$<INSTALL_INTERFACE:include/crashpad/>"
 )
+
+target_include_directories(${TARGET_NAME} PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party/mini_chromium>
+)
+
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
 		$<BUILD_INTERFACE:crashpad_interface>
