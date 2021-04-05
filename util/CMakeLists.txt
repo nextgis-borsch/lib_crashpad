@@ -384,6 +384,7 @@ if(WIN32)
     target_link_libraries(${TARGET_NAME} PRIVATE user32 version winhttp)
     if(MSVC)
         target_compile_options(${TARGET_NAME} PRIVATE "/wd4201")
+        add_definitions(/FI"memory")
     elseif(MINGW)
         target_compile_options(${TARGET_NAME} PRIVATE 
             $<$<COMPILE_LANGUAGE:CXX>:-municode>
