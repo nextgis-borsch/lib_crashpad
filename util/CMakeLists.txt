@@ -146,22 +146,8 @@ endif()
 
 if(APPLE)
     target_sources(${TARGET_NAME} PRIVATE
-        mac/checked_mach_address_range.h
-        mac/launchd.h
-        mac/launchd.mm
-        mac/mac_util.cc
-        mac/mac_util.h
-        mac/service_management.cc
-        mac/service_management.h
         mac/xattr.cc
         mac/xattr.h
-        mach/bootstrap.cc
-        mach/bootstrap.h
-        mach/child_port_handshake.cc
-        mach/child_port_handshake.h
-        mach/child_port_server.cc
-        mach/child_port_server.h
-        mach/child_port_types.h
         mach/composite_mach_message_server.cc
         mach/composite_mach_message_server.h
         mach/exc_client_variants.cc
@@ -172,30 +158,46 @@ if(APPLE)
         mach/exception_behaviors.h
         mach/exception_ports.cc
         mach/exception_ports.h
-        mach/exception_types.cc
-        mach/exception_types.h
         mach/mach_extensions.cc
         mach/mach_extensions.h
         mach/mach_message.cc
         mach/mach_message.h
         mach/mach_message_server.cc
         mach/mach_message_server.h
+        mach/symbolic_constants_mach.cc
+        mach/symbolic_constants_mach.h
+        misc/capture_context_mac.S
+        misc/clock_mac.cc
+        misc/paths_mac.cc
+        synchronization/semaphore_mac.cc
+        mac/checked_mach_address_range.h
+        mac/launchd.h
+        mac/launchd.mm
+        mac/mac_util.cc
+        mac/mac_util.h
+        mac/service_management.cc
+        mac/service_management.h
+        mac/sysctl.cc
+        mac/sysctl.h
+        mach/bootstrap.cc
+        mach/bootstrap.h
+        mach/child_port_handshake.cc
+        mach/child_port_handshake.h
+        mach/child_port_server.cc
+        mach/child_port_server.h
+        mach/child_port_types.h
+        mach/exception_types.cc
+        mach/exception_types.h
         mach/notify_server.cc
         mach/notify_server.h
         mach/scoped_task_suspend.cc
         mach/scoped_task_suspend.h
-        mach/symbolic_constants_mach.cc
-        mach/symbolic_constants_mach.h
         mach/task_for_pid.cc
         mach/task_for_pid.h
-        misc/capture_context_mac.S
-        misc/clock_mac.cc
-        misc/paths_mac.cc
         net/http_transport_mac.mm
         posix/process_info_mac.cc
         process/process_memory_mac.cc
         process/process_memory_mac.h
-        synchronization/semaphore_mac.cc
     )
 endif()
 
@@ -246,6 +248,7 @@ if(LINUX OR ANDROID)
         linux/traits.h
         misc/capture_context_linux.S
         misc/paths_linux.cc
+        misc/time_linux.cc
         posix/process_info_linux.cc
         process/process_memory_linux.cc
         process/process_memory_linux.h
