@@ -318,6 +318,10 @@ if(WIN32)
     )
 endif()
 
+target_include_directories(${TARGET_NAME} PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party/mini_chromium>
+)
+
 # Copied from: https://github.com/qedsoftware/crashpad/blob/3583c50a6575857abcf140f6ea3b8d11390205b3/util/CMakeLists.txt#L196-L233
 if(APPLE)
     set(def_relative_files "exc.defs" "mach_exc.defs" "notify.defs")
